@@ -87,7 +87,7 @@
         }
     </style>
 </head>
-<body>
+<body onclick="goFullscreen()">
 <div id="app">
     <div v-for="counter in lifeCounters" :key="counter.id" class="card-spot">
         <div style="flex: 1"></div>
@@ -115,6 +115,11 @@
             }
         }
     }).mount('#app');
+
+
+    function goFullscreen() {
+        document.body.requestFullscreen()
+    }
 </script>
 </body>
 </html>
