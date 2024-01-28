@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Card Game Life Counter</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+        body {
+            background-color: #333;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            touch-action: manipulation; /* Prevents double-tap zoom on mobile */
+        }
+
+        #app {
+            flex-grow: 1;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+            overflow: auto;
+        }
+
+        .card-spot {
+            border: 1px solid grey;
+            width: 2.5in;
+            height: 4in;
+            margin: 10px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: #444;
+            position: relative;
+        }
+
+        .life-counter {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px; /* Adjust space between buttons and input */
+        }
+
+        .button {
+            border: none;
+            width: 40px; /* Smaller buttons for touch screens */
+            height: 40px;
+            font-size: 20px;
+            color: white;
+            border-radius: 20px;
+            cursor: pointer;
+            background-color: #555;
+        }
+
+        .button-plus {
+            background-color: #77dd77;
+        }
+
+        .button-minus {
+            background-color: #ff6961;
+        }
+
+        .counter-value {
+            width: 50px;
+            text-align: center;
+        }
+
+        input[type="number"] {
+            width: 60px;
+            font-size: 20px;
+            text-align: center;
+            background-color: #555;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            -webkit-appearance: none; /* Removes default mobile browser styles */
+            margin: 0; /* Removes default margin */
+        }
+
+        /* Prevents iOS browsers from zooming on input focus */
+        input[type="number"]:focus {
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div v-for="counter in lifeCounters" :key="counter.id" class="card-spot">
+        <div style="flex: 1"></div>
+        <div class="life-counter">
+            <button @click="changeLife(counter, -1)" class="button button-minus">-</button>
+            <input type="number" v-model.number="counter.value" class="counter-value" @focus="selectInput">
+            <button @click="changeLife(counter, 1)" class="button button-plus">+</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    Vue.createApp({
+        data() {
+            return {
+                lifeCounters: Array.from({ length: 10 }, (_, i) => ({ id: i + 1, value: 20 }))
+            }
+        },
+        methods: {
+            changeLife(counter, amount) {
+                counter.value += amount;
+            },
+            selectInput(event) {
+                event.target.select();
+            }
+        }
+    }).mount('#app');
+</script>
+</body>
+</html>
